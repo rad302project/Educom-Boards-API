@@ -11,6 +11,7 @@ using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using DataClasses;
 using EduComBoards.BusinessModel;
+using EduComBoards.DAL;
 using EduComBoards.Models;
 
 namespace EduComBoards.Controllers
@@ -21,11 +22,19 @@ namespace EduComBoards.Controllers
     {
         private BusinessModelDBContext db = new BusinessModelDBContext();
 
+        public IDiscussionRepository repository;
+
+        public DiscussionBoardsController(IDiscussionRepository repo)
+        {
+            repository = repo;  
+        }
+
+
         // GET: api/DiscussionBoards
         [Route("getDiscussions")]
         public List<DiscussionBoard> GetDiscussionBoards()
         {
-            return db.DiscussionBoards.ToList();
+            return repository.GetAll();
         }
 
         // GET: api/DiscussionBoards/5
@@ -85,7 +94,7 @@ namespace EduComBoards.Controllers
         {
             using (BusinessModelDBContext db = new BusinessModelDBContext())
             {
-                db.DiscussionBoards.Add(new DiscussionBoard { ID = discussionBoard.ID, Title = discussionBoard.Title, Content = discussionBoard.Content, CreatedAt = new DateTime()});
+                db.DiscussionBoards.Add(new DiscussionBoard { ID = discussionBoard.ID, Title = discussionBoard.Title, Content = discussionBoard.Content, CreatedAt = discussionBoard.CreatedAt});
                 db.SaveChanges();
                 return Content(HttpStatusCode.OK, discussionBoard);
             }
