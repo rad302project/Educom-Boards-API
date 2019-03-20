@@ -76,7 +76,7 @@ namespace EduComBoards.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/DiscussionBoards
+        // POST: api/DiscussionBoards //useless commit
         [HttpPost]
         [Route("postDiscussion")]
         [ResponseType(typeof(DiscussionBoard))]
