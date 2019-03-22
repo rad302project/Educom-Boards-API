@@ -11,10 +11,7 @@ namespace EduComBoards.DAL
     {
         public BusinessModelDBContext db = new BusinessModelDBContext();
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+
 
         public List<DiscussionBoard> GetAll()
         {
@@ -27,6 +24,11 @@ namespace EduComBoards.DAL
         }
 
         public DiscussionBoard Put(DiscussionBoard item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException();
         }

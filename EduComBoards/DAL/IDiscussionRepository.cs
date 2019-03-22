@@ -9,5 +9,6 @@ namespace EduComBoards.DAL
 {
     public interface IDiscussionRepository : IDiscussion<DiscussionBoard>, IDisposable
     {
+
     }
 }
