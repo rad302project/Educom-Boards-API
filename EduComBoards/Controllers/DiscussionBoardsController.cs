@@ -16,7 +16,7 @@ using EduComBoards.Models;
 
 namespace EduComBoards.Controllers
 {
-    [EnableCors(origins: "http://localhost:4200", headers: "*",methods:"*")]
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     [RoutePrefix("api/DiscussionBoards")]
     public class DiscussionBoardsController : ApiController
     {
@@ -26,11 +26,19 @@ namespace EduComBoards.Controllers
 
         public DiscussionBoardsController(IDiscussionRepository repo)
         {
-            repository = repo;  
+            this.repository = repo;
+        }
+        public DiscussionBoardsController()
+        {
+            repository = new DiscussionRepo();
         }
 
 
         // GET: api/DiscussionBoards
+        // Leaving this here for later when auth added
+        // Only "members" can see all discussions 
+        // but any logged in user should be assigned role of member
+        //[Authorize(Roles = "Member")]
         [Route("getDiscussions")]
         public List<DiscussionBoard> GetDiscussionBoards()
         {
@@ -85,16 +93,21 @@ namespace EduComBoards.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/DiscussionBoards //useless commit
+        // POST: api/DiscussionBoards
         [HttpPost]
         [Route("postDiscussion")]
         [ResponseType(typeof(DiscussionBoard))]
-        //[EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
         public IHttpActionResult PostDiscussionBoard(DiscussionBoard discussionBoard)
         {
             using (BusinessModelDBContext db = new BusinessModelDBContext())
             {
-                db.DiscussionBoards.Add(new DiscussionBoard { ID = discussionBoard.ID, Title = discussionBoard.Title, Content = discussionBoard.Content, CreatedAt = discussionBoard.CreatedAt});
+                db.DiscussionBoards.Add(new DiscussionBoard
+                {
+                    ID = discussionBoard.ID,
+                    Title = discussionBoard.Title,
+                    Content = discussionBoard.Content,
+                    CreatedAt = DateTime.Now
+                });
                 db.SaveChanges();
                 return Content(HttpStatusCode.OK, discussionBoard);
             }

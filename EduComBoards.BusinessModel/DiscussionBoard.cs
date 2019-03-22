@@ -18,6 +18,8 @@ namespace DataClasses
 
         public string Title { get; set; }
         public string Content { get; set; }
+
+        [Column(TypeName = "datetime2")]
         public DateTime CreatedAt { get; set; }
 
        // [ForeignKey("user")]
