@@ -38,20 +38,7 @@ namespace EduComBoards.BusinessModel
                     MemberID = 1
                 });
             }
-
-            Member peter = new Member
-            {
-                MemberName = "peter"
-            };
-            context.Members.Add(peter);
-
-            PrivateDiscussionBoard privateDiscussionBoard = new PrivateDiscussionBoard();
-            privateDiscussionBoard.CreatedAt = new DateTime();
-            privateDiscussionBoard.members.Add(peter);
-            privateDiscussionBoard.Title = "private";
-
             context.DiscussionBoards.AddRange(discussions);
-            context.PrivateDiscussionBoards.Add(privateDiscussionBoard);
             context.SaveChanges();
         }
     }
