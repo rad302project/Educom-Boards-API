@@ -86,7 +86,7 @@ namespace EduComBoards.Controllers
                 return BadRequest(ModelState);
             }
 
-            Db.DiscussionBoards.Add(privateDiscussionBoard);
+            Db.PrivateDiscussionBoards.Add(privateDiscussionBoard);
             await Db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = privateDiscussionBoard.ID }, privateDiscussionBoard);
@@ -102,7 +102,7 @@ namespace EduComBoards.Controllers
                 return NotFound();
             }
 
-            Db.DiscussionBoards.Remove(privateDiscussionBoard);
+            Db.PrivateDiscussionBoards.Remove(privateDiscussionBoard);
             await Db.SaveChangesAsync();
 
             return Ok(privateDiscussionBoard);

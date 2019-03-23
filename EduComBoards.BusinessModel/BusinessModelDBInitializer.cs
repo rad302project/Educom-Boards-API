@@ -25,7 +25,18 @@ namespace EduComBoards.BusinessModel
                     CreatedAt = DateTime.Parse("10/10/2010")
                 });
             }
+
+            Member peter = new Member();
+            peter.MemberName = "peter";
+            context.Members.Add(peter);
+
+            PrivateDiscussionBoard privateDiscussionBoard = new PrivateDiscussionBoard();
+            privateDiscussionBoard.CreatedAt = new DateTime();
+            privateDiscussionBoard.members.Add(peter);
+            privateDiscussionBoard.Title = "private";
+
             context.DiscussionBoards.AddRange(discussions);
+            context.PrivateDiscussionBoards.Add(privateDiscussionBoard);
             context.SaveChanges();
         }
     }
