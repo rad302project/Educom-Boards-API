@@ -9,16 +9,17 @@ using DataClasses;
 namespace EduComBoards.BusinessModel
 {
     public class BusinessModelDBContext : DbContext
-    {        
-        public DbSet<DiscussionBoard> DiscussionBoards { get; set; }
-
+    {
         public BusinessModelDBContext() : base("DefaultConnection")
         {
             Database.SetInitializer(new BusinessModelDBInitializer());
             Database.Initialize(true);
         }
 
+        #region DbSets
+        public DbSet<DiscussionBoard> DiscussionBoards { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<PrivateDiscussionBoard> PrivateDiscussionBoards { get; set; }
+        #endregion
     }
 }

@@ -9,7 +9,7 @@ namespace EduComBoards.DAL
 {
     interface IUser
     {
-        ApplicationUser getById(string id);
+        ApplicationUser getById(int id);
         ApplicationUser getByName(string name);
         List<ApplicationUser> getAll();
     }
