@@ -40,6 +40,22 @@ namespace EduComBoards.Controllers
             return repository.getAll();
         }
 
+        [ResponseType(typeof(List<ApplicationUser>))]
+        [HttpGet]
+        [Route("getMembers/{searchTerm}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult SearchDiscussionBoards(string searchTerm)
+        {
+            List<ApplicationUser> applicationUsers = repository.getAll();
+            applicationUsers = applicationUsers.Where(s => s.UserName.Contains(searchTerm)).ToList();
+            if (applicationUsers == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(applicationUsers);
+        }
+
         // GET: api/Members/5
         [ResponseType(typeof(Member))]
         public IHttpActionResult GetMember(int id)
