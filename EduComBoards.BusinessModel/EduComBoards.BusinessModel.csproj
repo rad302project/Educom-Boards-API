@@ -69,6 +69,7 @@
     <Compile Include="DiscussionBoard.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="Post.cs" />
+    <Compile Include="PrivateDiscussionBoard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
