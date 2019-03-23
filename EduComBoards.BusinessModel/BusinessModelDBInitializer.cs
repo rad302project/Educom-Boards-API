@@ -17,12 +17,25 @@ namespace EduComBoards.BusinessModel
         protected override void Seed(BusinessModelDBContext context)
         {
             List<DiscussionBoard> discussions = new List<DiscussionBoard>();
+            List<Member> members = new List<Member>();
+
+            members.Add(new Member
+            {
+                MemberName = "Test Member"
+            });
+            context.Members.AddRange(members);
+            context.SaveChanges();
+
+
+            // Seeding test data
+            // Member 1 has created 3 topics
             for (int i = 0; i < 3; i++)
             {
                 discussions.Add(new DiscussionBoard
                 {
                     Title = "Test",
-                    CreatedAt = DateTime.Parse("10/10/2010")
+                    CreatedAt = DateTime.Parse("10/10/2010"),
+                    MemberID = 1
                 });
             }
             context.DiscussionBoards.AddRange(discussions);

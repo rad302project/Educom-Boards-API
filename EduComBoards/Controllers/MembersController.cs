@@ -40,10 +40,10 @@ namespace EduComBoards.Controllers
             return repository.getAll();
         }
 
-        [ResponseType(typeof(List<ApplicationUser>))]
+        
         [HttpGet]
         [Route("getMembers/{searchTerm}")]
-        [AcceptVerbs("GET")]
+        [ResponseType(typeof(List<ApplicationUser>))]
         public IHttpActionResult SearchDiscussionBoards(string searchTerm)
         {
             List<ApplicationUser> applicationUsers = repository.getAll();

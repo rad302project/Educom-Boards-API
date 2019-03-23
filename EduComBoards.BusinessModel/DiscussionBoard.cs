@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EduComBoards.BusinessModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace DataClasses
 {
+
+    // A DiscussionBoard is a Topic, which has posts and 
+    //is created by a User if the user is a "contributor"
     [Table("DiscussionBoards")]
     public class DiscussionBoard
     {
@@ -21,10 +25,11 @@ namespace DataClasses
         [Column(TypeName = "datetime2")]
         public DateTime CreatedAt { get; set; }
 
-       // [ForeignKey("user")]
-       // public string CreatedBy { get; set; }
+        [ForeignKey("user")]
+        public int MemberID { get; set; }
 
-       // public virtual ICollection<Comments> comments { get; set; }
-        //public virtual ApplicationUser user { get; set; }
+        public virtual Member user { get; set; }
+        public virtual ICollection<Comments> comments { get; set; }
+        public virtual ICollection<Post> posts { get; set; }
     }
 }

@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 namespace EduComBoards.BusinessModel
 {
     [Table("Members")]
+    // Anyone who signs up is created as a member
+    // Then created as an ASP User with the role "member"
     public class Member
     {
         [Key]
@@ -17,8 +19,8 @@ namespace EduComBoards.BusinessModel
         public int MemberID { get; set; }
         public string MemberName { get; set; }
 
-        
-        //public ICollection<DiscussionBoard> discussions { get; set; }
-        //public ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Comments> comments { get; set; }
+        public virtual ICollection<DiscussionBoard> discussions { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

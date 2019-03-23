@@ -16,7 +16,7 @@ namespace EduComBoards.DAL
             return db.Users.ToList();
         }
 
-        public ApplicationUser getById(string id)
+        public ApplicationUser getById(int id)
         {
             return db.Users.Find(id);
         }
