@@ -44,7 +44,23 @@ namespace EduComBoards.Controllers
         {
             return repository.GetAll();
         }
+        
+        //GET: api/DiscussionBoards/getDiscussions/Test
+        [ResponseType(typeof(List<DiscussionBoard>))]
+        [HttpGet]
+        [Route("getDiscussions/{searchTerm}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult SearchDiscussionBoards(string searchTerm)
+        {
+            List<DiscussionBoard> discussionBoards = db.DiscussionBoards.Where(s => s.Title.Contains(searchTerm)).ToList();
+            if (discussionBoards == null)
+            {
+                return NotFound();
+            }
 
+            return Ok(discussionBoards);
+        }
+        
         // GET: api/DiscussionBoards/5
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult GetDiscussionBoard(int id)
@@ -57,7 +73,7 @@ namespace EduComBoards.Controllers
 
             return Ok(discussionBoard);
         }
-
+        
         // PUT: api/DiscussionBoards/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutDiscussionBoard(int id, DiscussionBoard discussionBoard)
