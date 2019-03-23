@@ -39,8 +39,10 @@ namespace EduComBoards.BusinessModel
                 });
             }
 
-            Member peter = new Member();
-            peter.MemberName = "peter";
+            Member peter = new Member
+            {
+                MemberName = "peter"
+            };
             context.Members.Add(peter);
 
             PrivateDiscussionBoard privateDiscussionBoard = new PrivateDiscussionBoard();
