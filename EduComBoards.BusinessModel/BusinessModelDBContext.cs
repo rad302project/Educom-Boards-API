@@ -17,5 +17,7 @@ namespace EduComBoards.BusinessModel
             Database.SetInitializer(new BusinessModelDBInitializer());
             Database.Initialize(true);
         }
+
+        public System.Data.Entity.DbSet<EduComBoards.BusinessModel.Member> Members { get; set; }
     }
 }

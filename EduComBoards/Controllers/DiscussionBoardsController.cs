@@ -121,7 +121,6 @@ namespace EduComBoards.Controllers
                 {
                     ID = discussionBoard.ID,
                     Title = discussionBoard.Title,
-                    Content = discussionBoard.Content,
                     CreatedAt = DateTime.Now
                 });
                 db.SaveChanges();

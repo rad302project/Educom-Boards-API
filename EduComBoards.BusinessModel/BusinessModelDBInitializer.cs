@@ -22,7 +22,6 @@ namespace EduComBoards.BusinessModel
                 discussions.Add(new DiscussionBoard
                 {
                     Title = "Test",
-                    Content = "Test",
                     CreatedAt = DateTime.Parse("10/10/2010")
                 });
             }
