@@ -242,6 +242,7 @@
     <Compile Include="Controllers\DiscussionBoardsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\PrivateDiscussionBoardsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\DiscussionRepo.cs" />
     <Compile Include="DAL\IDiscussion.cs" />

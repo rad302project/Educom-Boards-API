@@ -8,6 +8,7 @@ namespace EduComBoards.DAL.PrivateDiscussionBoards
 {
     public class IPrivateDiscussionRepo : IPrivateDiscussionRepository
     {
+        public BusinessModelDBContext db = new BusinessModelDBContext();
         public void Dispose()
         {
             throw new NotImplementedException();
@@ -15,7 +16,7 @@ namespace EduComBoards.DAL.PrivateDiscussionBoards
 
         public List<PrivateDiscussionBoard> GetAll()
         {
-            throw new NotImplementedException();
+            return db.PrivateDiscussionBoards.ToList();
         }
 
         public PrivateDiscussionBoard GetByID(string id)
@@ -25,7 +26,7 @@ namespace EduComBoards.DAL.PrivateDiscussionBoards
 
         public PrivateDiscussionBoard Put(PrivateDiscussionBoard item)
         {
-            throw new NotImplementedException();
+           return db.PrivateDiscussionBoards.Add(item);
         }
     }
 }
