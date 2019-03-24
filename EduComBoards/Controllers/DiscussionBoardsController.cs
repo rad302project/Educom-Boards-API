@@ -16,7 +16,6 @@ using EduComBoards.Models;
 
 namespace EduComBoards.Controllers
 {
-    [Authorize]
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     [RoutePrefix("api/DiscussionBoards")]
     public class DiscussionBoardsController : ApiController
@@ -39,7 +38,7 @@ namespace EduComBoards.Controllers
         // Leaving this here for later when auth added
         // Only "members" can see all discussions 
         // but any logged in user should be assigned role of member
-        [Authorize(Roles = "Member, Contributor, Moderator, Admin")]
+        //[Authorize(Roles = "Member")]
         [Route("getDiscussions")]
         public IEnumerable<DiscussionBoard> GetDiscussionBoards()
         {
@@ -49,11 +48,9 @@ namespace EduComBoards.Controllers
             return discussions;
         }
 
-        
         //GET: api/DiscussionBoards/getDiscussions/Test
         [ResponseType(typeof(List<DiscussionBoard>))]
         [HttpGet]
-        [Authorize(Roles = "Member, Contributor, Moderator, Admin")]
         [Route("getDiscussions/{searchTerm}")]
         [AcceptVerbs("GET")]
         public IHttpActionResult SearchDiscussionBoards(string searchTerm)
@@ -68,21 +65,14 @@ namespace EduComBoards.Controllers
         }
 
         // GET: api/DiscussionBoards/5
-        [Authorize(Roles = "Member, Contributor, Moderator, Admin")]
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult GetDiscussionBoard(int id)
         {
-            DiscussionBoard discussionBoard = db.DiscussionBoards.Find(id);
-            if (discussionBoard == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(discussionBoard);
+           DiscussionBoard discussion = repository.GetByID(id);
+            return Ok(discussion);
         }
 
         // PUT: api/DiscussionBoards/5
-        [Authorize(Roles = "Contributor, Moderator, Admin")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutDiscussionBoard(int id, DiscussionBoard discussionBoard)
         {
@@ -120,48 +110,25 @@ namespace EduComBoards.Controllers
         // POST: api/DiscussionBoards
         [HttpPost]
         [Route("postDiscussion")]
-        [Authorize(Roles = "Contributor, Moderator, Admin")]
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult PostDiscussionBoard(DiscussionBoard discussionBoard)
         {
-            using (BusinessModelDBContext db = new BusinessModelDBContext())
-            {
-                db.DiscussionBoards.Add(new DiscussionBoard
-                {
-                    ID = discussionBoard.ID,
-                    Title = discussionBoard.Title,
-                    CreatedAt = DateTime.Now
-                });
-                db.SaveChanges();
-                return Content(HttpStatusCode.OK, discussionBoard);
-            }
+            repository.Create(discussionBoard);
+            return Content(HttpStatusCode.OK, discussionBoard);
         }
 
 
         // DELETE: api/DiscussionBoards/5
-        [Authorize(Roles = "Contributor, Moderator, Admin")]
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult DeleteDiscussionBoard(int id)
         {
-            DiscussionBoard discussionBoard = db.DiscussionBoards.Find(id);
-            if (discussionBoard == null)
-            {
-                return NotFound();
-            }
-
-            db.DiscussionBoards.Remove(discussionBoard);
-            db.SaveChanges();
-
-            return Ok(discussionBoard);
+            repository.Delete(id);
+            return Ok("deleting");
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            repository.Dispose();
         }
 
         private bool DiscussionBoardExists(int id)

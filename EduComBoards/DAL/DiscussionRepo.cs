@@ -16,19 +16,39 @@ namespace EduComBoards.DAL
             return db.DiscussionBoards.ToList();
         }
 
-        public DiscussionBoard GetByID(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         public DiscussionBoard Put(DiscussionBoard item)
         {
             throw new NotImplementedException();
         }
-
+        public DiscussionBoard Create(DiscussionBoard discussionBoard)
+        {
+            db.DiscussionBoards.Add(new DiscussionBoard
+            {
+                ID = discussionBoard.ID,
+                Title = discussionBoard.Title,
+                Content = discussionBoard.Content,
+                CreatedAt = DateTime.Now,
+                MemberID = 1
+            });
+            db.SaveChanges();
+            return discussionBoard;
+        }
         public void Dispose()
         {
-            throw new NotImplementedException();
+            db.Dispose();
+        }
+
+        public DiscussionBoard GetByID(int id)
+        {
+            DiscussionBoard discussion = db.DiscussionBoards.Find(id);
+            return discussion;
+        }
+
+        public void Delete(int id)
+        {
+            DiscussionBoard board = db.DiscussionBoards.Where(d => d.ID == id).SingleOrDefault();
+            db.DiscussionBoards.Remove(board);
+            db.SaveChanges();
         }
     }
 }
