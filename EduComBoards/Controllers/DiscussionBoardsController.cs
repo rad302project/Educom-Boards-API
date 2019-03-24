@@ -16,6 +16,7 @@ using EduComBoards.Models;
 
 namespace EduComBoards.Controllers
 {
+    [Authorize]
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     [RoutePrefix("api/DiscussionBoards")]
     public class DiscussionBoardsController : ApiController
@@ -38,7 +39,7 @@ namespace EduComBoards.Controllers
         // Leaving this here for later when auth added
         // Only "members" can see all discussions 
         // but any logged in user should be assigned role of member
-        //[Authorize(Roles = "Member")]
+        [Authorize(Roles = "Member, Contributor, Moderator, Admin")]
         [Route("getDiscussions")]
         public IEnumerable<DiscussionBoard> GetDiscussionBoards()
         {
@@ -47,10 +48,12 @@ namespace EduComBoards.Controllers
 
             return discussions;
         }
+
         
         //GET: api/DiscussionBoards/getDiscussions/Test
         [ResponseType(typeof(List<DiscussionBoard>))]
         [HttpGet]
+        [Authorize(Roles = "Member, Contributor, Moderator, Admin")]
         [Route("getDiscussions/{searchTerm}")]
         [AcceptVerbs("GET")]
         public IHttpActionResult SearchDiscussionBoards(string searchTerm)
@@ -63,8 +66,9 @@ namespace EduComBoards.Controllers
 
             return Ok(discussionBoards);
         }
-        
+
         // GET: api/DiscussionBoards/5
+        [Authorize(Roles = "Member, Contributor, Moderator, Admin")]
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult GetDiscussionBoard(int id)
         {
@@ -76,8 +80,9 @@ namespace EduComBoards.Controllers
 
             return Ok(discussionBoard);
         }
-        
+
         // PUT: api/DiscussionBoards/5
+        [Authorize(Roles = "Contributor, Moderator, Admin")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutDiscussionBoard(int id, DiscussionBoard discussionBoard)
         {
@@ -115,6 +120,7 @@ namespace EduComBoards.Controllers
         // POST: api/DiscussionBoards
         [HttpPost]
         [Route("postDiscussion")]
+        [Authorize(Roles = "Contributor, Moderator, Admin")]
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult PostDiscussionBoard(DiscussionBoard discussionBoard)
         {
@@ -131,7 +137,9 @@ namespace EduComBoards.Controllers
             }
         }
 
+
         // DELETE: api/DiscussionBoards/5
+        [Authorize(Roles = "Contributor, Moderator, Admin")]
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult DeleteDiscussionBoard(int id)
         {

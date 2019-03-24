@@ -16,6 +16,8 @@ using Microsoft.Owin.Security.OAuth;
 using EduComBoards.Models;
 using EduComBoards.Providers;
 using EduComBoards.Results;
+using EduComBoards.DAL;
+using System.Net;
 
 namespace EduComBoards.Controllers
 {
@@ -25,9 +27,18 @@ namespace EduComBoards.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        private UserRepository repository;
+
+        public AccountController(UserRepository repo)
+        {
+            this.repository = repo;   
+        }
 
         public AccountController()
         {
+            repository = new UserRepository();
         }
 
         public AccountController(ApplicationUserManager userManager,
@@ -332,10 +343,75 @@ namespace EduComBoards.Controllers
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded)
+            if (result.Succeeded)
             {
-                return GetErrorResult(result);
+                result = await UserManager.AddToRoleAsync(user.Id, "Member");
+                return Ok();
             }
+            return GetErrorResult(result);
+        }
+
+        //PUT api/Account/ChangeRoleAdmin/[ Admin, Moderator, Contributor ]
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        [Route("ChangeRoleAdmin/{role}")]
+        public IHttpActionResult ChangeRoleAdmin(string role, ApplicationUser user)
+        {
+            ApplicationUser theuser = db.Users.Find(user.Id);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.Title == null && user.Title == "")
+            {
+                return BadRequest();
+            }
+
+            theuser.Title = user.Title;
+            UserManager.AddToRole(user.Id, role);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+        //PUT api/Account/ChangeRoleModerator/[ Moderator, Contributor ]
+        [HttpPut]
+        [Route("ChangeRoleModerator/{role}")]
+        [Authorize(Roles = "Moderator")]
+        public IHttpActionResult ChangeRoleModerator(string role, ApplicationUser user)
+        {
+            ApplicationUser theuser = db.Users.Find(user.Id);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (role == "Admin")
+            {
+                return BadRequest();
+            }
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.Title == null && user.Title == "")
+            {
+                return BadRequest();
+            }
+
+            theuser.Title = user.Title;
+            UserManager.AddToRole(user.Id, role);
+            db.SaveChanges();
 
             return Ok();
         }

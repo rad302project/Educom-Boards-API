@@ -18,5 +18,6 @@ namespace EduComBoards.BusinessModel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MemberID { get; set; }
         public string MemberName { get; set; }   
+        public string UserID { get; set; }
     }
 }
