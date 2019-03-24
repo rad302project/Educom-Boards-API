@@ -11,9 +11,7 @@ namespace EduComBoards.DAL
     {
         public BusinessModelDBContext db = new BusinessModelDBContext();
 
-
-
-        public List<DiscussionBoard> GetAll()
+        public IEnumerable<DiscussionBoard> GetAll()
         {
             return db.DiscussionBoards.ToList();
         }

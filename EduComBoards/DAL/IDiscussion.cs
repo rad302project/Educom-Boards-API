@@ -8,7 +8,7 @@ namespace EduComBoards.DAL
 {
     public interface IDiscussion<T>
     {
-        List<T> GetAll();
+        IEnumerable<T> GetAll();
         T GetByID(string id);
         T Put(T item);
     }

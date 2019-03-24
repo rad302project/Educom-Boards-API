@@ -20,7 +20,7 @@ namespace EduComBoards.BusinessModel
         public string MemberName { get; set; }
 
         public virtual ICollection<Comments> comments { get; set; }
-        public virtual ICollection<DiscussionBoard> discussions { get; set; }
+        //public virtual ICollection<DiscussionBoard> discussions { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
     }
 }

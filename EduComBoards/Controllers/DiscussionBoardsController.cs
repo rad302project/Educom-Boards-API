@@ -40,9 +40,12 @@ namespace EduComBoards.Controllers
         // but any logged in user should be assigned role of member
         //[Authorize(Roles = "Member")]
         [Route("getDiscussions")]
-        public List<DiscussionBoard> GetDiscussionBoards()
+        public IEnumerable<DiscussionBoard> GetDiscussionBoards()
         {
-            return repository.GetAll();
+            var discussions = from d in repository.GetAll()
+                              select d;
+
+            return discussions;
         }
         
         //GET: api/DiscussionBoards/getDiscussions/Test
