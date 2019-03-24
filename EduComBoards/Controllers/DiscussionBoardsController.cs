@@ -47,7 +47,7 @@ namespace EduComBoards.Controllers
 
             return discussions;
         }
-        
+
         //GET: api/DiscussionBoards/getDiscussions/Test
         [ResponseType(typeof(List<DiscussionBoard>))]
         [HttpGet]
@@ -63,20 +63,15 @@ namespace EduComBoards.Controllers
 
             return Ok(discussionBoards);
         }
-        
+
         // GET: api/DiscussionBoards/5
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult GetDiscussionBoard(int id)
         {
-            DiscussionBoard discussionBoard = db.DiscussionBoards.Find(id);
-            if (discussionBoard == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(discussionBoard);
+            repository.GetByID(id);
+            return Ok();
         }
-        
+
         // PUT: api/DiscussionBoards/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutDiscussionBoard(int id, DiscussionBoard discussionBoard)
@@ -118,42 +113,22 @@ namespace EduComBoards.Controllers
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult PostDiscussionBoard(DiscussionBoard discussionBoard)
         {
-            using (BusinessModelDBContext db = new BusinessModelDBContext())
-            {
-                db.DiscussionBoards.Add(new DiscussionBoard
-                {
-                    ID = discussionBoard.ID,
-                    Title = discussionBoard.Title,
-                    CreatedAt = DateTime.Now
-                });
-                db.SaveChanges();
-                return Content(HttpStatusCode.OK, discussionBoard);
-            }
+            repository.Create(discussionBoard);
+            return Content(HttpStatusCode.OK, discussionBoard);
         }
+
 
         // DELETE: api/DiscussionBoards/5
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult DeleteDiscussionBoard(int id)
         {
-            DiscussionBoard discussionBoard = db.DiscussionBoards.Find(id);
-            if (discussionBoard == null)
-            {
-                return NotFound();
-            }
-
-            db.DiscussionBoards.Remove(discussionBoard);
-            db.SaveChanges();
-
-            return Ok(discussionBoard);
+            repository.Delete(id);
+            return Ok("Discussion deleted");
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            repository.Dispose();
         }
 
         private bool DiscussionBoardExists(int id)
