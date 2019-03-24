@@ -18,7 +18,7 @@ namespace EduComBoards.Controllers
     [RoutePrefix("api/PrivateDiscussionBoards")]
     public class PrivateDiscussionBoardsController : ApiController
     {
-        
+
         private BusinessModelDBContext db = new BusinessModelDBContext();
 
         public BusinessModelDBContext Db { get => db; set => db = value; }
@@ -76,20 +76,21 @@ namespace EduComBoards.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-
-        // POST: api/PrivateDiscussionBoards
+        [HttpPost]
+        [Route("postDiscussion")]
         [ResponseType(typeof(PrivateDiscussionBoard))]
         public async Task<IHttpActionResult> PostPrivateDiscussionBoard(PrivateDiscussionBoard privateDiscussionBoard)
         {
-            if (!ModelState.IsValid)
+            using (BusinessModelDBContext db = new BusinessModelDBContext())
             {
-                return BadRequest(ModelState);
+                db.PrivateDiscussionBoards.Add(new PrivateDiscussionBoard
+                {
+                    Title = privateDiscussionBoard.Title,
+                    CreatedAt = DateTime.Now,
+                });
+                db.SaveChanges();
+                return Content(HttpStatusCode.OK, privateDiscussionBoard);
             }
-
-            Db.DiscussionBoards.Add(privateDiscussionBoard);
-            await Db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = privateDiscussionBoard.ID }, privateDiscussionBoard);
         }
 
         // DELETE: api/PrivateDiscussionBoards/5
@@ -102,7 +103,7 @@ namespace EduComBoards.Controllers
                 return NotFound();
             }
 
-            Db.DiscussionBoards.Remove(privateDiscussionBoard);
+            Db.PrivateDiscussionBoards.Remove(privateDiscussionBoard);
             await Db.SaveChangesAsync();
 
             return Ok(privateDiscussionBoard);

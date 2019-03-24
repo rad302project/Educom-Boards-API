@@ -17,10 +17,6 @@ namespace EduComBoards.BusinessModel
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MemberID { get; set; }
-        public string MemberName { get; set; }
-
-        public virtual ICollection<Comments> comments { get; set; }
-        //public virtual ICollection<DiscussionBoard> discussions { get; set; }
-        public virtual ICollection<Post> Posts { get; set; }
+        public string MemberName { get; set; }   
     }
 }
