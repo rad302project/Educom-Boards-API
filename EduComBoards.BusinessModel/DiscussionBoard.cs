@@ -21,6 +21,7 @@ namespace DataClasses
         public int ID { get; set; }
 
         public string Title { get; set; }
+        public string Content { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime CreatedAt { get; set; }
@@ -29,7 +30,6 @@ namespace DataClasses
         public int MemberID { get; set; }
 
         public virtual Member user { get; set; }
-        public virtual ICollection<Comments> comments { get; set; }
         public virtual ICollection<Post> posts { get; set; }
     }
 }

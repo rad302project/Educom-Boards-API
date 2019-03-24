@@ -68,8 +68,8 @@ namespace EduComBoards.Controllers
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult GetDiscussionBoard(int id)
         {
-            repository.GetByID(id);
-            return Ok();
+           DiscussionBoard discussion = repository.GetByID(id);
+            return Ok(discussion);
         }
 
         // PUT: api/DiscussionBoards/5
@@ -123,7 +123,7 @@ namespace EduComBoards.Controllers
         public IHttpActionResult DeleteDiscussionBoard(int id)
         {
             repository.Delete(id);
-            return Ok("Discussion deleted");
+            return Ok("deleting");
         }
 
         protected override void Dispose(bool disposing)

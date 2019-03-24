@@ -16,12 +16,6 @@ namespace EduComBoards.DAL
             return db.DiscussionBoards.ToList();
         }
 
-        public DiscussionBoard GetByID(string id)
-        {
-            DiscussionBoard discussionBoard = db.DiscussionBoards.Find(id);
-            return discussionBoard;
-        }
-
         public DiscussionBoard Put(DiscussionBoard item)
         {
             throw new NotImplementedException();
@@ -32,6 +26,7 @@ namespace EduComBoards.DAL
             {
                 ID = discussionBoard.ID,
                 Title = discussionBoard.Title,
+                Content = discussionBoard.Content,
                 CreatedAt = DateTime.Now,
                 MemberID = 1
             });
@@ -45,12 +40,13 @@ namespace EduComBoards.DAL
 
         public DiscussionBoard GetByID(int id)
         {
-            throw new NotImplementedException();
+            DiscussionBoard discussion = db.DiscussionBoards.Find(id);
+            return discussion;
         }
 
         public void Delete(int id)
         {
-            DiscussionBoard board = db.DiscussionBoards.Where(d => d.MemberID == id).FirstOrDefault();
+            DiscussionBoard board = db.DiscussionBoards.Where(d => d.ID == id).SingleOrDefault();
             db.DiscussionBoards.Remove(board);
             db.SaveChanges();
         }
