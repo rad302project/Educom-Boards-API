@@ -38,7 +38,7 @@ namespace EduComBoards.Controllers
         // Leaving this here for later when auth added
         // Only "members" can see all discussions 
         // but any logged in user should be assigned role of member
-        //[Authorize(Roles = "Member")]
+        [Authorize(Roles = "Admin, Moderator, Contributor, Member")]
         [Route("getDiscussions")]
         public IEnumerable<DiscussionBoard> GetDiscussionBoards()
         {
@@ -52,6 +52,7 @@ namespace EduComBoards.Controllers
         [ResponseType(typeof(List<DiscussionBoard>))]
         [HttpGet]
         [Route("getDiscussions/{searchTerm}")]
+        [Authorize(Roles = "Admin, Moderator, Contributor, Member")]
         [AcceptVerbs("GET")]
         public IHttpActionResult SearchDiscussionBoards(string searchTerm)
         {
@@ -66,6 +67,7 @@ namespace EduComBoards.Controllers
 
         // GET: api/DiscussionBoards/5
         [ResponseType(typeof(DiscussionBoard))]
+        [Authorize(Roles = "Admin, Moderator, Contributor")]
         public IHttpActionResult GetDiscussionBoard(int id)
         {
            DiscussionBoard discussion = repository.GetByID(id);
@@ -73,6 +75,7 @@ namespace EduComBoards.Controllers
         }
 
         // PUT: api/DiscussionBoards/5
+        [Authorize(Roles = "Admin, Moderator, Contributor")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutDiscussionBoard(int id, DiscussionBoard discussionBoard)
         {
@@ -110,6 +113,7 @@ namespace EduComBoards.Controllers
         // POST: api/DiscussionBoards
         [HttpPost]
         [Route("postDiscussion")]
+        [Authorize(Roles = "Admin, Moderator, Contributor")]
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult PostDiscussionBoard(DiscussionBoard discussionBoard)
         {
@@ -119,6 +123,7 @@ namespace EduComBoards.Controllers
 
 
         // DELETE: api/DiscussionBoards/5
+        [Authorize(Roles = "Admin, Moderator, Contributor")]
         [ResponseType(typeof(DiscussionBoard))]
         public IHttpActionResult DeleteDiscussionBoard(int id)
         {
