@@ -18,6 +18,7 @@ namespace EduComBoards.BusinessModel
         {
             List<DiscussionBoard> discussions = new List<DiscussionBoard>();
             List<Member> members = new List<Member>();
+            List<Post> posts = new List<Post>();
 
             members.Add(new Member
             {
@@ -38,7 +39,22 @@ namespace EduComBoards.BusinessModel
                     MemberID = 1
                 });
             }
+
             context.DiscussionBoards.AddRange(discussions);
+            context.SaveChanges();
+
+            for (int i = 0; i < 3; i++)
+            {
+                posts.Add(new Post
+                {
+                  Title = "testing posts",
+                  Content = "Testtt",
+                  MemberID = 1,
+                  boardId = 2
+                });
+            }
+
+            context.Posts.AddRange(posts);
             context.SaveChanges();
         }
     }

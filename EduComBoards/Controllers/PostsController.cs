@@ -11,7 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using EduComBoards.BusinessModel;
-using EduComBoards.DAL.Post;
+using EduComBoards.DAL;
 
 namespace EduComBoards.Controllers
 {
@@ -22,28 +22,28 @@ namespace EduComBoards.Controllers
     {
         private BusinessModelDBContext db = new BusinessModelDBContext();
 
-        public IPostRepository repository;
+        public PostRepository repository;
 
-        public PostsController(IPostRepository repo)
+        public PostsController(PostRepository repo)
         {
             this.repository = repo;
         }
         public PostsController()
         {
-            repository = new IPostRepo();
+            repository = new PostRepository();
         }
 
         // GET: api/Posts
         public List<Post> GetPosts()
         {
-            return repository.GetAll();
+            return repository.getAllPublic();
         }
 
         // GET: api/Posts/5
         [ResponseType(typeof(Post))]
-        public async Task<IHttpActionResult> GetPost(int id)
+        public IHttpActionResult GetPost(int id)
         {
-            Post post = await db.Posts.FindAsync(id);
+            Post post = repository.getPostById(id);
             if (post == null)
             {
                 return NotFound();
@@ -88,24 +88,29 @@ namespace EduComBoards.Controllers
         }
 
         [HttpPost]
-        [Route("postPost")]
+        [Route("createPrivatePost")]
         [ResponseType(typeof(PrivateDiscussionBoard))]
-        public async Task<IHttpActionResult> AddPostToPrivateDiscussionBoard(PrivatePost post)
+        public IHttpActionResult AddPostToPrivateDiscussionBoard(PrivatePost post)
         {
-            using (BusinessModelDBContext db = new BusinessModelDBContext())
-            {
-                db.PrivatePosts.Add(post);
-                db.SaveChanges();
-                return Content(HttpStatusCode.OK, post);
-            }
+            PrivatePost privatePost = repository.CreatePrivate(post);
+            return Content(HttpStatusCode.OK, post);
+        }
+        [HttpPost]
+        [Route("createPublicPost")]
+        [ResponseType(typeof(PrivateDiscussionBoard))]
+        public IHttpActionResult AddPostToPublicDiscussionBoard(Post post)
+        {
+            Post publicPost = repository.CreatePublic(post);
+            return Content(HttpStatusCode.OK, post);
         }
 
+
         [HttpGet]
-        [Route("getPostByBoardID/{boardid}")]
+        [Route("getPrivatePostByBoardID/{boardid}")]
         [ResponseType(typeof(List<PrivatePost>))]
-        public IHttpActionResult getPostByBoardID(int boardid)
+        public IHttpActionResult getPrivatePostByBoardID(int boardid)
         {
-            List<PrivatePost> privatePosts = db.PrivatePosts.Where(s => s.BoardID.Equals(boardid)).ToList();
+            PrivatePost privatePosts = repository.getPrivatePostById(boardid);
             if (privatePosts == null)
             {
                 return NotFound();
@@ -114,21 +119,29 @@ namespace EduComBoards.Controllers
             return Ok(privatePosts);
         }
 
-
-        // DELETE: api/Posts/5
-        [ResponseType(typeof(Post))]
-        public async Task<IHttpActionResult> DeletePost(int id)
+        [Route("getPublicPostByBoardID/{boardid}"), HttpGet, ResponseType(typeof(List<Post>))]
+        public IHttpActionResult getPublicPostByBoardID(int boardid)
         {
-            Post post = await db.Posts.FindAsync(id);
-            if (post == null)
+            List<Post> posts = repository.getPublicPostsByBoardId(boardid);
+            if (posts == null)
             {
                 return NotFound();
             }
 
-            db.Posts.Remove(post);
-            await db.SaveChangesAsync();
+            return Ok(posts);
+        }
 
-            return Ok(post);
+        // DELETE: api/Posts/5
+        [ResponseType(typeof(Post))]
+        public IHttpActionResult DeletePrivatePost(int id)
+        {
+            repository.DeletePrivatePost(id);
+            return Ok("deleting post");
+        }
+        public IHttpActionResult DeletePublicPost(int id)
+        {
+            repository.DeletePublicPost(id);
+            return Ok("deleting post");
         }
 
         protected override void Dispose(bool disposing)

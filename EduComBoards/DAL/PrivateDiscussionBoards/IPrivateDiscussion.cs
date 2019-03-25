@@ -10,6 +10,9 @@ namespace EduComBoards.DAL.PrivateDiscussionBoards
     {
         List<PrivateDiscussionBoard> GetAll();
         PrivateDiscussionBoard GetByID(int id);
-        PrivateDiscussionBoard Put(PrivateDiscussionBoard item);
+        PrivateDiscussionBoard PostPrivateDiscussionBoard(PrivateDiscussionBoard privateDiscussionBoard);
+        void DeletePrivateDiscussionBoard(int id);
+        bool PrivateDiscussionBoardExists(int id);
+        void PutPrivateDiscussionBoard(int id, PrivateDiscussionBoard privateDiscussionBoard);
     }
 }

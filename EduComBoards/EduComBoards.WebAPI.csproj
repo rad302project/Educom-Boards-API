@@ -248,13 +248,11 @@
     <Compile Include="DAL\DiscussionRepo.cs" />
     <Compile Include="DAL\IDiscussion.cs" />
     <Compile Include="DAL\IDiscussionRepository.cs" />
+    <Compile Include="DAL\IPost.cs" />
     <Compile Include="DAL\IUser.cs" />
-    <Compile Include="DAL\Post\IPost.cs" />
-    <Compile Include="DAL\Post\IPostRepo.cs" />
-    <Compile Include="DAL\Post\IPostRepository.cs" />
+    <Compile Include="DAL\PostRepository.cs" />
     <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussion.cs" />
     <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussionRepo.cs" />
-    <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussionRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

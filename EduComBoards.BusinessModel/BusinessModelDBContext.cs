@@ -14,16 +14,17 @@ namespace EduComBoards.BusinessModel
         {
             Database.SetInitializer(new BusinessModelDBInitializer());
             Database.Initialize(true);
+            Configuration.LazyLoadingEnabled = false;
         }
 
         #region DbSets
-        public DbSet<DiscussionBoard> DiscussionBoards { get; set; }
         public DbSet<Member> Members { get; set; }
+        public DbSet<DiscussionBoard> DiscussionBoards { get; set; }
+        public DbSet<Post> Posts { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<PrivateDiscussionBoard> PrivateDiscussionBoards { get; set; }
         public DbSet<PrivatePost> PrivatePosts { get; set; }
         #endregion
 
-        public System.Data.Entity.DbSet<EduComBoards.BusinessModel.Post> Posts { get; set; }
     }
 }

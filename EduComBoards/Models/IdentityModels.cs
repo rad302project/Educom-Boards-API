@@ -19,6 +19,7 @@ namespace EduComBoards.Models
     {
         public string FirstName { get;  set; }
         public string SecondName { get; set; }
+        public string ForceSeed { get; set; }
         public string Title { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MemberID { get; set; }
@@ -38,6 +39,7 @@ namespace EduComBoards.Models
         {
             Database.SetInitializer(new ApplicationDBContextInitializer());
             Database.Initialize(true);
+            Configuration.LazyLoadingEnabled = false;
         }
         
         public static ApplicationDbContext Create()
