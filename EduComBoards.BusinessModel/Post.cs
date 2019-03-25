@@ -24,11 +24,10 @@ namespace EduComBoards.BusinessModel
         public string Content { get; set; }
 
         [ForeignKey("member")]
-        public int MemberID { get; set; }
+        public int? MemberID { get; set; }
 
-        [ForeignKey("member")]
-        public int boardId
-        { get; set; }
+        [ForeignKey("board")]
+        public int boardId { get; set; }
 
         public virtual Member member { get; set; }
         public virtual DiscussionBoard board { get; set; }

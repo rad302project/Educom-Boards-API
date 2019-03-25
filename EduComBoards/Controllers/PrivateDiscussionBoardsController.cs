@@ -48,7 +48,7 @@ namespace EduComBoards.Controllers
 
         // GET: api/PrivateDiscussionBoards/5
         [ResponseType(typeof(PrivateDiscussionBoard))]
-        public async Task<IHttpActionResult> GetPrivateDiscussionBoard(int id)
+        public IHttpActionResult GetPrivateDiscussionBoard(int id)
         {
             PrivateDiscussionBoard privateDiscussionBoard = repository.GetByID(id);
             return Ok(privateDiscussionBoard);
@@ -57,7 +57,7 @@ namespace EduComBoards.Controllers
 
         // PUT: api/PrivateDiscussionBoards/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutPrivateDiscussionBoard(int id, PrivateDiscussionBoard privateDiscussionBoard)
+        public IHttpActionResult PutPrivateDiscussionBoard(int id, PrivateDiscussionBoard privateDiscussionBoard)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace EduComBoards.Controllers
 
             try
             {
-                await Db.SaveChangesAsync();
+                Db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -92,7 +92,7 @@ namespace EduComBoards.Controllers
         [HttpPost]
         [Route("postDiscussion")]
         [ResponseType(typeof(PrivateDiscussionBoard))]
-        public async Task<IHttpActionResult> PostPrivateDiscussionBoard(PrivateDiscussionBoard privateDiscussionBoard)
+        public IHttpActionResult PostPrivateDiscussionBoard(PrivateDiscussionBoard privateDiscussionBoard)
         {
             using (BusinessModelDBContext db = new BusinessModelDBContext())
             {
@@ -110,7 +110,7 @@ namespace EduComBoards.Controllers
         [HttpPost]
         [Route("addPostToPrivateBoard")]
         [ResponseType(typeof(PrivateDiscussionBoard))]
-        public async Task<IHttpActionResult> AddPostToPrivateDiscussionBoard(PrivatePost post)
+        public IHttpActionResult AddPostToPrivateDiscussionBoard(PrivatePost post)
         {
             using (BusinessModelDBContext db = new BusinessModelDBContext())
             {

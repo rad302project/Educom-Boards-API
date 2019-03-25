@@ -36,14 +36,14 @@ namespace EduComBoards.Controllers
         // GET: api/Posts
         public List<Post> GetPosts()
         {
-            return repository.getAll();
+            return repository.getAllPublic();
         }
 
         // GET: api/Posts/5
         [ResponseType(typeof(Post))]
         public IHttpActionResult GetPost(int id)
         {
-            Post post = repository.getById(id);
+            Post post = repository.getPostById(id);
             if (post == null)
             {
                 return NotFound();
@@ -106,11 +106,11 @@ namespace EduComBoards.Controllers
 
 
         [HttpGet]
-        [Route("getPostByBoardID/{boardid}")]
+        [Route("getPrivatePostByBoardID/{boardid}")]
         [ResponseType(typeof(List<PrivatePost>))]
-        public IHttpActionResult getPostByBoardID(int boardid)
+        public IHttpActionResult getPrivatePostByBoardID(int boardid)
         {
-            List<PrivatePost> privatePosts = db.PrivatePosts.Where(s => s.BoardID.Equals(boardid)).ToList();
+            PrivatePost privatePosts = repository.getPrivatePostById(boardid);
             if (privatePosts == null)
             {
                 return NotFound();
@@ -119,12 +119,28 @@ namespace EduComBoards.Controllers
             return Ok(privatePosts);
         }
 
+        [Route("getPublicPostByBoardID/{boardid}"), HttpGet, ResponseType(typeof(List<Post>))]
+        public IHttpActionResult getPublicPostByBoardID(int boardid)
+        {
+            List<Post> posts = repository.getPublicPostsByBoardId(boardid);
+            if (posts == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(posts);
+        }
 
         // DELETE: api/Posts/5
         [ResponseType(typeof(Post))]
-        public IHttpActionResult DeletePost(int id)
+        public IHttpActionResult DeletePrivatePost(int id)
         {
-            repository.Delete(id);
+            repository.DeletePrivatePost(id);
+            return Ok("deleting post");
+        }
+        public IHttpActionResult DeletePublicPost(int id)
+        {
+            repository.DeletePublicPost(id);
             return Ok("deleting post");
         }
 
