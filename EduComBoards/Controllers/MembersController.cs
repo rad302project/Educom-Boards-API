@@ -49,7 +49,7 @@ namespace EduComBoards.Controllers
         [HttpGet]
         [Route("getMembers/{searchTerm}")]
         [ResponseType(typeof(List<ApplicationUser>))]
-        public IHttpActionResult SearchDiscussionBoards(string searchTerm)
+        public IHttpActionResult SearchMembers(string searchTerm)
         {
             List<ApplicationUser> applicationUsers = repository.getAll();
             applicationUsers = applicationUsers.Where(s => s.UserName.Contains(searchTerm)).ToList();

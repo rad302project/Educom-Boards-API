@@ -9,9 +9,10 @@ namespace EduComBoards.DAL.PrivateDiscussionBoards
     public class IPrivateDiscussionRepo : IPrivateDiscussionRepository
     {
         public BusinessModelDBContext db = new BusinessModelDBContext();
+
         public void Dispose()
         {
-            throw new NotImplementedException();
+            db.Dispose();
         }
 
         public List<PrivateDiscussionBoard> GetAll()
