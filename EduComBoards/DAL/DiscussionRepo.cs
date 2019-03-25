@@ -50,5 +50,11 @@ namespace EduComBoards.DAL
             db.DiscussionBoards.Remove(board);
             db.SaveChanges();
         }
+
+        public List<DiscussionBoard> SearchBoards(string searchTerm)
+        {
+            List<DiscussionBoard> discussionBoards = db.DiscussionBoards.Where(s => s.Title.Contains(searchTerm)).ToList();
+            return discussionBoards;
+        }
     }
 }

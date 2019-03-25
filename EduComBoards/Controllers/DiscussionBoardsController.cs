@@ -6,6 +6,8 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
@@ -13,6 +15,7 @@ using DataClasses;
 using EduComBoards.BusinessModel;
 using EduComBoards.DAL;
 using EduComBoards.Models;
+using EduComBoards.Helpers;
 
 namespace EduComBoards.Controllers
 {
@@ -56,12 +59,17 @@ namespace EduComBoards.Controllers
         [AcceptVerbs("GET")]
         public IHttpActionResult SearchDiscussionBoards(string searchTerm)
         {
-            List<DiscussionBoard> discussionBoards = db.DiscussionBoards.Where(s => s.Title.Contains(searchTerm)).ToList();
+            List<DiscussionBoard> discussionBoards = repository.SearchBoards(searchTerm);
             if (discussionBoards == null)
             {
                 return NotFound();
             }
-
+            var users = from post in db.Posts
+                        join member in db.Members
+                        on post.MemberID equals member.MemberID
+                        select member.MemberID;
+            //var emails = db.
+            //SendEmail("jammydodger8910@gmail.com", "James");
             return Ok(discussionBoards);
         }
 
@@ -121,7 +129,6 @@ namespace EduComBoards.Controllers
             return Content(HttpStatusCode.OK, discussionBoard);
         }
 
-
         // DELETE: api/DiscussionBoards/5
         [Authorize(Roles = "Admin, Moderator, Contributor")]
         [ResponseType(typeof(DiscussionBoard))]
@@ -129,6 +136,12 @@ namespace EduComBoards.Controllers
         {
             repository.Delete(id);
             return Ok("deleting");
+        }
+
+        public void SendEmail(string recipentAddress, string recipientName)
+        {
+            EmailHelper emailHelper = new EmailHelper();
+            emailHelper.SendEmail(recipentAddress, recipientName);
         }
 
         protected override void Dispose(bool disposing)
