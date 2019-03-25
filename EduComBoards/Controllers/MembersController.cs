@@ -163,6 +163,23 @@ namespace EduComBoards.Controllers
             return CreatedAtRoute("DefaultApi", new { id = member.MemberID }, member);
         }
 
+        //POST: api/Members/postRequest
+        [HttpPost]
+        [Route("postRequest")]
+        [Authorize(Roles = "Moderator, Contributor, Member")]
+        public IHttpActionResult PostRequest(Request request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Requests.Add(request);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = request.MemberID }, request);
+        }
+
         // DELETE: api/Members/5
         [ResponseType(typeof(Member))]
         public IHttpActionResult DeleteMember(int id)

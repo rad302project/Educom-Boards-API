@@ -102,13 +102,16 @@ namespace EduComBoards.Controllers
 
         [HttpGet]
         [Route("getPostByBoardID/{boardid}")]
-        [ResponseType(typeof(PrivatePost))]
-        public List<PrivatePost> getPostByBoardID(int boardid)
+        [ResponseType(typeof(List<PrivatePost>))]
+        public IHttpActionResult getPostByBoardID(int boardid)
         {
-            using (BusinessModelDBContext db = new BusinessModelDBContext())
+            List<PrivatePost> privatePosts = db.PrivatePosts.Where(s => s.BoardID.Equals(boardid)).ToList();
+            if (privatePosts == null)
             {
-                return db.PrivatePosts.Where(board => board.BoardID == boardid).ToList();
+                return NotFound();
             }
+
+            return Ok(privatePosts);
         }
 
 
