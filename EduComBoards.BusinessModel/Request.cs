@@ -1,5 +1,4 @@
-﻿using DataClasses;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,15 +8,18 @@ using System.Threading.Tasks;
 
 namespace EduComBoards.BusinessModel
 {
-    [Table("Members")]
-    // Anyone who signs up is created as a member
-    // Then created as an ASP User with the role "member"
-    public class Member
+    [Table("Requests")]
+    public class Request
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int RequestID { get; set; }
         public int MemberID { get; set; }
-        public string MemberName { get; set; }   
-        public string UserID { get; set; }
+        public string RequestedRole { get; set; }
+        public string RequestedTitle { get; set; }
+        public bool Reviewed { get; set; }
+        public bool Granted { get; set; }
+
     }
 }

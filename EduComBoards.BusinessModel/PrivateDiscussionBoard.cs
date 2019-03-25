@@ -20,7 +20,9 @@ namespace EduComBoards.BusinessModel
 
         [Column(TypeName = "datetime2")]
         public DateTime CreatedAt { get; set; }
+        public string Content { get; set; }
 
         public virtual ICollection<Member> members { get; set; }
+        public virtual ICollection<PrivatePost> posts { get; set; }
     }
 }

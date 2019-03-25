@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using EduComBoards.BusinessModel;
+using EduComBoards.DAL.PrivateDiscussionBoards;
 
 namespace EduComBoards.Controllers
 {
@@ -18,29 +19,41 @@ namespace EduComBoards.Controllers
     [RoutePrefix("api/PrivateDiscussionBoards")]
     public class PrivateDiscussionBoardsController : ApiController
     {
-
         private BusinessModelDBContext db = new BusinessModelDBContext();
 
-        public BusinessModelDBContext Db { get => db; set => db = value; }
+        public IPrivateDiscussionRepository repository;
 
-        // GET: api/PrivateDiscussionBoards
-        public IQueryable<PrivateDiscussionBoard> GetDiscussionBoards()
+        public PrivateDiscussionBoardsController(IPrivateDiscussionRepository repo)
         {
-            return Db.PrivateDiscussionBoards;
+            this.repository = repo;
         }
+        public PrivateDiscussionBoardsController()
+        {
+            repository = new IPrivateDiscussionRepo();
+        }
+
+
+        // GET: api/DiscussionBoards
+        // Leaving this here for later when auth added
+        // Only "members" can see all discussions 
+        // but any logged in user should be assigned role of member
+        //[Authorize(Roles = "Member")]
+        [Route("getAllPrivateDiscussions")]
+        public List<PrivateDiscussionBoard> GetAllPrivateDiscussionBoards()
+        {
+            return repository.GetAll();
+        }
+
+        public BusinessModelDBContext Db { get => db; set => db = value; }
 
         // GET: api/PrivateDiscussionBoards/5
         [ResponseType(typeof(PrivateDiscussionBoard))]
         public async Task<IHttpActionResult> GetPrivateDiscussionBoard(int id)
         {
-            PrivateDiscussionBoard privateDiscussionBoard = await Db.PrivateDiscussionBoards.FindAsync(id);
-            if (privateDiscussionBoard == null)
-            {
-                return NotFound();
-            }
-
+            PrivateDiscussionBoard privateDiscussionBoard = repository.GetByID(id);
             return Ok(privateDiscussionBoard);
         }
+
 
         // PUT: api/PrivateDiscussionBoards/5
         [ResponseType(typeof(void))]
@@ -87,9 +100,23 @@ namespace EduComBoards.Controllers
                 {
                     Title = privateDiscussionBoard.Title,
                     CreatedAt = DateTime.Now,
+                    Content = privateDiscussionBoard.Content
                 });
                 db.SaveChanges();
                 return Content(HttpStatusCode.OK, privateDiscussionBoard);
+            }
+        }
+
+        [HttpPost]
+        [Route("addPostToPrivateBoard")]
+        [ResponseType(typeof(PrivateDiscussionBoard))]
+        public async Task<IHttpActionResult> AddPostToPrivateDiscussionBoard(PrivatePost post)
+        {
+            using (BusinessModelDBContext db = new BusinessModelDBContext())
+            {
+                db.PrivatePosts.Add(post);
+                db.SaveChanges();
+                return Content(HttpStatusCode.OK, post);
             }
         }
 

@@ -16,14 +16,19 @@ namespace EduComBoards.DAL
             return db.Users.ToList();
         }
 
-        public ApplicationUser getById(int id)
+        public ApplicationUser getById(string id)
         {
             return db.Users.Find(id);
         }
 
         public ApplicationUser getByName(string name)
         {
-            return db.Users.Where(u => u.FirstName == name).FirstOrDefault();
+            return db.Users.Where(u => u.FirstName.Contains(name)).FirstOrDefault();
+        }
+
+        public bool UserExists(string id)
+        {
+            return db.Users.Count(e => e.Id == id) > 0;
         }
     }
 }

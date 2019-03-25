@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EduComBoards.DAL.PrivateDiscussionBoards
 {
-    interface IPrivateDiscussionRepository: IPrivateDiscussion<PrivateDiscussionBoard>, IDisposable
+    public interface IPrivateDiscussionRepository : IPrivateDiscussion<PrivateDiscussionBoard>, IDisposable
     {
     }
 }

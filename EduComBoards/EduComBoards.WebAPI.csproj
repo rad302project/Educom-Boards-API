@@ -242,12 +242,16 @@
     <Compile Include="Controllers\DiscussionBoardsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\PrivateDiscussionBoardsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\DiscussionRepo.cs" />
     <Compile Include="DAL\IDiscussion.cs" />
     <Compile Include="DAL\IDiscussionRepository.cs" />
     <Compile Include="DAL\IUser.cs" />
+    <Compile Include="DAL\Post\IPost.cs" />
+    <Compile Include="DAL\Post\IPostRepo.cs" />
+    <Compile Include="DAL\Post\IPostRepository.cs" />
     <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussion.cs" />
     <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussionRepo.cs" />
     <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussionRepository.cs" />
