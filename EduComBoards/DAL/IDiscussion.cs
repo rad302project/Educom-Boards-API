@@ -9,6 +9,7 @@ namespace EduComBoards.DAL
     public interface IDiscussion<T>
     {
         IEnumerable<T> GetAll();
+        List<T> SearchBoards(string searchTerm);
         T GetByID(int id);
         T Put(T item);
         T Create(T item);
