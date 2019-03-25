@@ -11,6 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using EduComBoards.BusinessModel;
+using EduComBoards.DAL.Post;
 
 namespace EduComBoards.Controllers
 {
@@ -21,10 +22,21 @@ namespace EduComBoards.Controllers
     {
         private BusinessModelDBContext db = new BusinessModelDBContext();
 
-        // GET: api/Posts
-        public IQueryable<Post> GetPosts()
+        public IPostRepository repository;
+
+        public PostsController(IPostRepository repo)
         {
-            return db.Posts;
+            this.repository = repo;
+        }
+        public PostsController()
+        {
+            repository = new IPostRepo();
+        }
+
+        // GET: api/Posts
+        public List<Post> GetPosts()
+        {
+            return repository.GetAll();
         }
 
         // GET: api/Posts/5
@@ -77,19 +89,17 @@ namespace EduComBoards.Controllers
 
         [HttpPost]
         [Route("postPost")]
-        [ResponseType(typeof(Post))]
-        public async Task<IHttpActionResult> PostPost(Post post)
+        [ResponseType(typeof(PrivateDiscussionBoard))]
+        public async Task<IHttpActionResult> AddPostToPrivateDiscussionBoard(PrivatePost post)
         {
-            if (!ModelState.IsValid)
+            using (BusinessModelDBContext db = new BusinessModelDBContext())
             {
-                return BadRequest(ModelState);
+                db.PrivatePosts.Add(post);
+                db.SaveChanges();
+                return Content(HttpStatusCode.OK, post);
             }
-
-            db.Posts.Add(post);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = post.ID }, post);
         }
+
 
         // DELETE: api/Posts/5
         [ResponseType(typeof(Post))]
