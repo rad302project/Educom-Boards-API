@@ -100,6 +100,17 @@ namespace EduComBoards.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getPostByBoardID/{boardid}")]
+        [ResponseType(typeof(PrivatePost))]
+        public List<PrivatePost> getPostByBoardID(int boardid)
+        {
+            using (BusinessModelDBContext db = new BusinessModelDBContext())
+            {
+                return db.PrivatePosts.Where(board => board.BoardID == boardid).ToList();
+            }
+        }
+
 
         // DELETE: api/Posts/5
         [ResponseType(typeof(Post))]
