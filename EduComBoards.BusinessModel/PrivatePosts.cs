@@ -22,5 +22,6 @@ namespace EduComBoards.BusinessModel
         public int MemberID { get; set; }
         public virtual Member member { get; set; }
         public int BoardID { get; set; }
+        
     }
 }

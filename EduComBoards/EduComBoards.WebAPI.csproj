@@ -254,7 +254,6 @@
     <Compile Include="DAL\Post\IPostRepository.cs" />
     <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussion.cs" />
     <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussionRepo.cs" />
-    <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussionRepository.cs" />
     <Compile Include="DAL\UserRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
