@@ -12,7 +12,7 @@ namespace EduComBoards
     {
         public static void Register(HttpConfiguration config)
         {
-
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             config.EnableCors();
 
             // Web API configuration and services

@@ -38,6 +38,7 @@ namespace EduComBoards.Models
         {
             Database.SetInitializer(new ApplicationDBContextInitializer());
             Database.Initialize(true);
+            Configuration.LazyLoadingEnabled = false;
         }
         
         public static ApplicationDbContext Create()

@@ -14,6 +14,7 @@ namespace EduComBoards.BusinessModel
         {
             Database.SetInitializer(new BusinessModelDBInitializer());
             Database.Initialize(true);
+            Configuration.LazyLoadingEnabled = false;
         }
 
         #region DbSets
