@@ -25,8 +25,7 @@ namespace EduComBoards.BusinessModel
 
         [ForeignKey("member")]
         public int MemberID { get; set; }
-
-        public virtual ICollection<Comments> comments { get; set; }
         public virtual Member member { get; set; }
+       public int boardID { get; set; }
     }
 }

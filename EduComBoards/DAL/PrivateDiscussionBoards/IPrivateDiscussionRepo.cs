@@ -19,9 +19,14 @@ namespace EduComBoards.DAL.PrivateDiscussionBoards
             return db.PrivateDiscussionBoards.ToList();
         }
 
-        public PrivateDiscussionBoard GetByID(string id)
+     
+        public PrivateDiscussionBoard GetByID(int id)
         {
-            throw new NotImplementedException();
+            PrivateDiscussionBoard board = (from boards in db.PrivateDiscussionBoards
+                                            where boards.ID == id
+                                            select boards).FirstOrDefault();
+
+            return board;
         }
 
         public PrivateDiscussionBoard Put(PrivateDiscussionBoard item)

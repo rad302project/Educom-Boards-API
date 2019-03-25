@@ -1,5 +1,4 @@
-﻿using DataClasses;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,20 +8,19 @@ using System.Threading.Tasks;
 
 namespace EduComBoards.BusinessModel
 {
-    [Table("PrivateDiscussionBoards")]
-    public class PrivateDiscussionBoard
+    [Table("PrivatePosts")]
+    public class PrivatePost
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
 
         public string Title { get; set; }
-
-        [Column(TypeName = "datetime2")]
-        public DateTime CreatedAt { get; set; }
         public string Content { get; set; }
 
-        public virtual ICollection<Member> members { get; set; }
-        public virtual ICollection<PrivatePost> posts { get; set; }
+        [ForeignKey("member")]
+        public int MemberID { get; set; }
+        public virtual Member member { get; set; }
+        public int BoardID { get; set; }
     }
 }

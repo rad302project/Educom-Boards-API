@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace EduComBoards.DAL.PrivateDiscussionBoards
 {
-    interface IPrivateDiscussion<PrivateDiscussionBoard>
+   public interface IPrivateDiscussion<PrivateDiscussionBoard>
     {
         List<PrivateDiscussionBoard> GetAll();
-        PrivateDiscussionBoard GetByID(string id);
+        PrivateDiscussionBoard GetByID(int id);
         PrivateDiscussionBoard Put(PrivateDiscussionBoard item);
     }
 }
