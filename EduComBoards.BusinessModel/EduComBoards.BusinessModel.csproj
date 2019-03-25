@@ -65,7 +65,6 @@
   <ItemGroup>
     <Compile Include="BusinessModelDBContext.cs" />
     <Compile Include="BusinessModelDBInitializer.cs" />
-    <Compile Include="Comments.cs" />
     <Compile Include="DiscussionBoard.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="Post.cs" />

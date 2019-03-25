@@ -12,14 +12,19 @@ using System.Web.Http.Description;
 using EduComBoards.BusinessModel;
 using EduComBoards.DAL;
 using EduComBoards.Models;
+using Microsoft.AspNet.Identity;
 
 namespace EduComBoards.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Members")]
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class MembersController : ApiController
     {
         private BusinessModelDBContext db = new BusinessModelDBContext();
+        private ApplicationUserManager _userManager;
+        private ApplicationDbContext db2 = new ApplicationDbContext();
+
 
         private UserRepository repository;
 
@@ -32,15 +37,15 @@ namespace EduComBoards.Controllers
             repository = new UserRepository();
         }
 
-        // GET: api/Members
+        // GET: api/Members/
         [HttpGet]
         [Route("getAllMembers")]
+        [Authorize(Roles = "Member, Contributor, Moderator, Admin")]
         public List<ApplicationUser> GetMembers()
         {
             return repository.getAll();
         }
 
-        
         [HttpGet]
         [Route("getMembers/{searchTerm}")]
         [ResponseType(typeof(List<ApplicationUser>))]
@@ -71,7 +76,44 @@ namespace EduComBoards.Controllers
 
         // PUT: api/Members/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutMember(int id, Member member)
+        public IHttpActionResult PutMember(string id, Member member)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+
+            //if (id != member.MemberID)
+            //{
+            //    return BadRequest();
+            //}
+
+            //db.Entry(member).State = EntityState.Modified;
+
+            //try
+            //{
+            //    db.SaveChanges();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!MemberExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // PUT: api/Members/5
+        [HttpPut]
+        [Authorize(Roles = "Admin, Moderator")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult ChangeRole(int id, Member member, string[] roles)
         {
             if (!ModelState.IsValid)
             {
@@ -84,25 +126,27 @@ namespace EduComBoards.Controllers
             }
 
             db.Entry(member).State = EntityState.Modified;
-
+            
             try
             {
                 db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MemberExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (!MemberExists(id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+        
 
         // POST: api/Members
         [ResponseType(typeof(Member))]
@@ -144,9 +188,9 @@ namespace EduComBoards.Controllers
             base.Dispose(disposing);
         }
 
-        private bool MemberExists(int id)
+        private bool MemberExists(string id)
         {
-            return db.Members.Count(e => e.MemberID == id) > 0;
+            return repository.UserExists(id);
         }
     }
 }
