@@ -30,7 +30,7 @@ namespace EduComBoards.DAL
                 Title = post.Title,
                 Content = post.Content,
                 MemberID = post.MemberID,
-                //boardId = post.boardId
+                BoardID = post.BoardID
             });
             db.SaveChanges();
             return post;

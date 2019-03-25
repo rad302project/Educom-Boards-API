@@ -36,14 +36,14 @@ namespace EduComBoards.Controllers
         // GET: api/Posts
         public List<Post> GetPosts()
         {
-            return repository.getAll();
+            return repository.getAllPublic();
         }
 
         // GET: api/Posts/5
         [ResponseType(typeof(Post))]
         public IHttpActionResult GetPost(int id)
         {
-            Post post = repository.getById(id);
+            Post post = repository.getPostById(id);
             if (post == null)
             {
                 return NotFound();
@@ -124,9 +124,19 @@ namespace EduComBoards.Controllers
         [ResponseType(typeof(Post))]
         public IHttpActionResult DeletePost(int id)
         {
-            repository.Delete(id);
+            repository.DeletePublicPost(id);
             return Ok("deleting post");
         }
+
+        [HttpDelete]
+        [Route("deletePrivatePost/{id}")]
+        [ResponseType(typeof(PrivatePost))]
+        public IHttpActionResult DeletePrivatePost(int id)
+        {
+            repository.DeletePrivatePost(id);
+            return Ok("deleting post");
+        }
+
 
         protected override void Dispose(bool disposing)
         {

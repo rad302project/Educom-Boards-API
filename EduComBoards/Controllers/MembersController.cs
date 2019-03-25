@@ -16,7 +16,7 @@ using Microsoft.AspNet.Identity;
 
 namespace EduComBoards.Controllers
 {
-    [Authorize]
+  //  [Authorize]
     [RoutePrefix("api/Members")]
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class MembersController : ApiController

@@ -242,6 +242,7 @@
     <Compile Include="Controllers\DiscussionBoardsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\MembershipsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\PrivateDiscussionBoardsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -250,6 +251,8 @@
     <Compile Include="DAL\IDiscussionRepository.cs" />
     <Compile Include="DAL\IPost.cs" />
     <Compile Include="DAL\IUser.cs" />
+    <Compile Include="DAL\Memberships\MembershipRepo.cs" />
+    <Compile Include="DAL\Memberships\Memberships.cs" />
     <Compile Include="DAL\PostRepository.cs" />
     <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussion.cs" />
     <Compile Include="DAL\PrivateDiscussionBoards\IPrivateDiscussionRepo.cs" />

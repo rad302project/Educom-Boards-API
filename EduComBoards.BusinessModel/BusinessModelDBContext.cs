@@ -23,8 +23,9 @@ namespace EduComBoards.BusinessModel
         public DbSet<Request> Requests { get; set; }
         public DbSet<PrivateDiscussionBoard> PrivateDiscussionBoards { get; set; }
         public DbSet<PrivatePost> PrivatePosts { get; set; }
-        #endregion
+        public DbSet<PrivateDiscussionBoardMemberships> Memberships { get; set; }    
 
         public System.Data.Entity.DbSet<EduComBoards.BusinessModel.Post> Posts { get; set; }
+        #endregion
     }
 }
