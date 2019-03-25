@@ -21,9 +21,9 @@ namespace EduComBoards.Controllers
     {
         private BusinessModelDBContext db = new BusinessModelDBContext();
 
-        public IPrivateDiscussionRepository repository;
+        public IPrivateDiscussion<PrivateDiscussionBoard> repository;
 
-        public PrivateDiscussionBoardsController(IPrivateDiscussionRepository repo)
+        public PrivateDiscussionBoardsController(IPrivateDiscussion<PrivateDiscussionBoard> repo)
         {
             this.repository = repo;
         }
@@ -48,7 +48,7 @@ namespace EduComBoards.Controllers
 
         // GET: api/PrivateDiscussionBoards/5
         [ResponseType(typeof(PrivateDiscussionBoard))]
-        public IHttpActionResult GetPrivateDiscussionBoard(int id)
+        public async Task<IHttpActionResult> GetPrivateDiscussionBoard(int id)
         {
             PrivateDiscussionBoard privateDiscussionBoard = repository.GetByID(id);
             return Ok(privateDiscussionBoard);
@@ -57,83 +57,28 @@ namespace EduComBoards.Controllers
 
         // PUT: api/PrivateDiscussionBoards/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutPrivateDiscussionBoard(int id, PrivateDiscussionBoard privateDiscussionBoard)
+        public async Task<IHttpActionResult> PutPrivateDiscussionBoard(int id, PrivateDiscussionBoard privateDiscussionBoard)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != privateDiscussionBoard.ID)
-            {
-                return BadRequest();
-            }
-
-            Db.Entry(privateDiscussionBoard).State = EntityState.Modified;
-
-            try
-            {
-                Db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PrivateDiscussionBoardExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            repository.PutPrivateDiscussionBoard(id, privateDiscussionBoard);
 
             return StatusCode(HttpStatusCode.NoContent);
         }
         [HttpPost]
         [Route("postDiscussion")]
         [ResponseType(typeof(PrivateDiscussionBoard))]
-        public IHttpActionResult PostPrivateDiscussionBoard(PrivateDiscussionBoard privateDiscussionBoard)
+        public async Task<IHttpActionResult> PostPrivateDiscussionBoard(PrivateDiscussionBoard privateDiscussionBoard)
         {
-            using (BusinessModelDBContext db = new BusinessModelDBContext())
-            {
-                db.PrivateDiscussionBoards.Add(new PrivateDiscussionBoard
-                {
-                    Title = privateDiscussionBoard.Title,
-                    CreatedAt = DateTime.Now,
-                    Content = privateDiscussionBoard.Content
-                });
-                db.SaveChanges();
-                return Content(HttpStatusCode.OK, privateDiscussionBoard);
-            }
-        }
+            repository.PostPrivateDiscussionBoard(privateDiscussionBoard);
+            return Content(HttpStatusCode.OK, privateDiscussionBoard);
 
-        [HttpPost]
-        [Route("addPostToPrivateBoard")]
-        [ResponseType(typeof(PrivateDiscussionBoard))]
-        public IHttpActionResult AddPostToPrivateDiscussionBoard(PrivatePost post)
-        {
-            using (BusinessModelDBContext db = new BusinessModelDBContext())
-            {
-                db.PrivatePosts.Add(post);
-                db.SaveChanges();
-                return Content(HttpStatusCode.OK, post);
-            }
         }
 
         // DELETE: api/PrivateDiscussionBoards/5
         [ResponseType(typeof(PrivateDiscussionBoard))]
         public async Task<IHttpActionResult> DeletePrivateDiscussionBoard(int id)
         {
-            PrivateDiscussionBoard privateDiscussionBoard = await Db.PrivateDiscussionBoards.FindAsync(id);
-            if (privateDiscussionBoard == null)
-            {
-                return NotFound();
-            }
-
-            Db.PrivateDiscussionBoards.Remove(privateDiscussionBoard);
-            await Db.SaveChangesAsync();
-
-            return Ok(privateDiscussionBoard);
+          repository.DeletePrivateDiscussionBoard(id);
+            return Ok();
         }
 
         protected override void Dispose(bool disposing)
@@ -147,7 +92,7 @@ namespace EduComBoards.Controllers
 
         private bool PrivateDiscussionBoardExists(int id)
         {
-            return Db.DiscussionBoards.Count(e => e.ID == id) > 0;
+            return repository.PrivateDiscussionBoardExists(id);
         }
     }
 }
